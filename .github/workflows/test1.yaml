@@ -29,5 +29,7 @@ jobs:
           do
             echo $y
           done
-          echo $GITHUB_EVENT_PATH
+          
+          response=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
+          echo $response
 ...
