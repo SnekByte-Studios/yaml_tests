@@ -30,9 +30,6 @@ jobs:
   job2:
     needs: setup
     runs-on: ubuntu-latest
-    inputs:
-      open_request_ids: ${{ jobs.setup.outputs.open_request_ids }}
-      
     steps:
       - name: Print me
         run: |
