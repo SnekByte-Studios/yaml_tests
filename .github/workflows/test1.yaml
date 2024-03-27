@@ -26,6 +26,12 @@ jobs:
           https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
           | jq -r .[].head.sha`
           
+          echo "Scraped IDs:"
+          for id in $open_request_ids
+          do
+            echo $id
+          done
+          
           pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
           commit_id=$(curl -L \
           -H "Accept: application/vnd.github.v3+json" \
