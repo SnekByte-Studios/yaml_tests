@@ -44,6 +44,10 @@ jobs:
           do
             if [ "$commit_id" != "$id"; then
               git diff $commit_id $id
+              echo "comparing id"
+              echo $id
+              echo "to"
+              echo $commit_id
             else
               echo "cannot compare branch to itself"
             fi
