@@ -14,7 +14,7 @@ jobs:
       REPO: ${{ secrets.REPO }}
       OWNER: ${{ secrets.OWNER }}
       open_request_ids: ${{ steps.fetch.outputs.open_request_ids }}
-      
+
     steps:
       - name: Fetch Variables
         id:  fetch
@@ -32,7 +32,10 @@ jobs:
     runs-on: ubuntu-latest
     inputs:
       open_request_ids: ${{ jobs.setup.outputs.open_request_ids }}
-    run: |
-      echo ${{ needs.setup.outputs.open_request_ids }}
-      echo ${{ needs.setup.outputs.USERNAME }}
+      
+    steps:
+      - name: Print me
+        run: |
+          echo ${{ needs.setup.outputs.open_request_ids }}
+          echo ${{ needs.setup.outputs.USERNAME }}
 ...
