@@ -42,6 +42,10 @@ jobs:
           
           for id in $open_request_ids
           do
+            echo "iterating through: "
+            echo $id
+            echo "comparing to: "
+            echo $commit_id
             if [ "$commit_id" != "$id"; then
               git diff $commit_id $id
               echo "comparing id"
