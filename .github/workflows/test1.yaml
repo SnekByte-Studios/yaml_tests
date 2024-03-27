@@ -1,0 +1,21 @@
+---
+name: Automatic Diversion Resolution
+on:
+  push:
+    pull_request:
+      types: [opened]
+
+jobs:
+  update:
+    runs-on: ubuntu-22.04
+    name: Diversion Test
+
+    steps:
+      - name: Testing different environments ...
+
+        env:
+          USERNAME: "Ryboster"
+
+        run: |
+          echo "opened a PR"       
+...
