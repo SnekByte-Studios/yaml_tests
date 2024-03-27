@@ -29,4 +29,5 @@ jobs:
           do
             echo $y
           done
+          echo $GITHUB_EVENT_PATH
 ...
