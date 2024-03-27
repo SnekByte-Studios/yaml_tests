@@ -19,6 +19,9 @@ jobs:
           OWNER: ${{ secrets.OWNER }}
 
         run: |
+          git config --global credential.helper store
+          git fetch --no-tags https://${{ env.TOKEN }}@github.com/\
+          ${{ env.OWNER }}/${{ env.REPO }}.git
           open_request_ids=`curl -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ env.TOKEN }}" \
@@ -47,7 +50,7 @@ jobs:
             echo "comparing to: "
             echo $commit_id
             if [ "$commit_id" != "$id" ]; then
-              git diff $commit_id $id
+              git diff $id $commit_id
               echo "comparing id"
               echo $id
               echo "to"
