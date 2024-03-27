@@ -46,7 +46,7 @@ jobs:
             echo $id
             echo "comparing to: "
             echo $commit_id
-            if [ "$commit_id" != "$id"; then
+            if [ "$commit_id" != "$id" ]; then
               git diff $commit_id $id
               echo "comparing id"
               echo $id
