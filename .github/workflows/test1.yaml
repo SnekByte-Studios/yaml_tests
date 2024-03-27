@@ -30,6 +30,11 @@ jobs:
             echo $y
           done
           
-          response=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
-          echo $response
+          pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
+          commit_id=$(curl -L \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: Bearer ${{ env.TOKEN }}" \
+          "$pull_request_url" \
+          | jq -r '.head.sha')
+          echo 'Commit ID: $commit_id'
 ...
