@@ -34,4 +34,6 @@ jobs:
         run: |
           echo ${{ needs.setup.outputs.open_request_ids }}
           echo ${{ needs.setup.outputs.USERNAME }}
+          echo ${{ needs.setup.outputs.OWNER }}
+          echo ${{ needs.setup.outputs.REPO }}
 ...
