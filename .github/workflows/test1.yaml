@@ -21,7 +21,7 @@ jobs:
 
         run: |
           git config --global credential.helper store
-          git fetch --no-tags https://${{ env.TOKEN }}@github.com/\
+          git fetch --no-tags https://github.com/\
           ${{ env.OWNER }}/${{ env.REPO }}.git
           open_request_ids=`curl -L \
           -H "Accept: application/vnd.github+json" \
