@@ -16,5 +16,6 @@ jobs:
           USERNAME: "Ryboster"
 
         run: |
-          echo "opened a PR"       
+          echo "opened a PR"
+          echo $(USERNAME)
 ...
