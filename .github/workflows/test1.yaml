@@ -36,5 +36,5 @@ jobs:
           -H "Authorization: Bearer ${{ env.TOKEN }}" \
           "$pull_request_url" \
           | jq -r '.head.sha')
-          echo 'Commit ID: $commit_id'
+          echo $commit_id
 ...
