@@ -18,5 +18,4 @@ jobs:
         run: |
           echo "opened a PR"
           echo $USERNAME
-          echo ${{ USERNAME }}
 ...
