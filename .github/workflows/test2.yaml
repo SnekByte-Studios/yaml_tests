@@ -8,9 +8,6 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
-    outputs:
-      open_request_ids: ${{ steps.fetch.outputs.open_request_ids }}
-      
     env:
       USERNAME: "Ryboster"
       TOKEN: ${{ secrets.SECRET_TOKEN }}
