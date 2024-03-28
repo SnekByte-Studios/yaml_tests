@@ -69,9 +69,18 @@ jobs:
         with:
           name: commit_id
       - shell: bash
+        env:
+          USERNAME: "Ryboster"
+          TOKEN: ${{ secrets.SECRET_TOKEN }}
+          REPO: ${{ secrets.REPO }}
+          OWNER: ${{ secrets.OWNER }}
         run: |
-          echo "ID's in artifact:"
+          git fetch https://github.com/${{ env.OWNER }}/${{ env.REPO }}.git
+        
           while IFS= read -r line; do
             echo $line
+            if [ "$commit_id" != "$line" ]; then
+              git diff `cat commit_id.txt` $line
+            fi
           done < open_prs.txt
 ...
