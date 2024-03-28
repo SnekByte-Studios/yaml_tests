@@ -69,6 +69,7 @@ jobs:
       - name: Pull latest changes
         shell: bash
         run: |
+          touch k
           git config --global user.email "kakashise@o2.pl"
           git config --global user.name "Ryboster"
           git config pull.rebase true
