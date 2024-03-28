@@ -33,13 +33,10 @@ jobs:
       TOKEN: ${{ secrets.SECRET_TOKEN }}
       REPO: ${{ secrets.REPO }}
       OWNER: ${{ secrets.OWNER }}
-    strategy:
-      matrix:
-        kek: ${{ fromJSON(needs.setup.outputs.test) }}
     steps:
       - name: Print me
         run: |
-          echo ${{ matrix.kek }}
+          echo ${{ needs.setup.test }}
           echo ${{ env.USERNAME }}
           echo ${{ env.OWNER }}
           echo ${{ env.REPO }}
