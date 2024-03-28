@@ -27,6 +27,8 @@ jobs:
           for id in ${open_request_ids[@]}
           do
             echo "open_request_ids=${id}" >> "$GITHUB_ENV"
+            echo $id
+            echo "${id}"
           done
 
   job2:
