@@ -85,12 +85,12 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
+          git fetch https://${{ env.TOKEN }}@github.com/${{ env.OWNER }}/${{ env.REPO }}.git
           while IFS= read -r line; do
             if [ -z "$line" ]; then
               continue
             fi
             echo "Comparing $(cat commit_id.txt) to commit: $line"
-            echo $line
             if [ "$(cat commit_id.txt)" != "$line" ]; then
               git diff "$line" "$(cat commit_id.txt)"
             else
