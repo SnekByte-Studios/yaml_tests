@@ -18,7 +18,7 @@ jobs:
           OWNER: ${{ secrets.OWNER }}
         run: |
           git fetch https://${{ env.TOKEN }}@github.com/SnekByte-Studios/yaml_tests.git
-
+          echo "Connecting to https://github.com/SnekByte-Studios/yaml_tests.git"
           open_request_ids=$(`curl -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ env.TOKEN }}" \
