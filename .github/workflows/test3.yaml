@@ -71,6 +71,6 @@ jobs:
         run: |
           echo `cat commit_id.txt`
           while IFS= read -r line; do
-            echo $line
+            git diff `cat commit_id.txt` $line
           done < open_prs.txt
 ...
