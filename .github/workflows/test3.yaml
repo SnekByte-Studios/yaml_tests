@@ -78,6 +78,8 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
+          ls
+          ls ..
           echo `cat commit_id.txt`
           while IFS= read -r line; do
             if [ -z "$line" ]; then
