@@ -85,15 +85,11 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
-          ls
-          ls ..
-          echo `cat README.md`
-          echo `cat commit_id.txt`
           while IFS= read -r line; do
             if [ -z "$line" ]; then
               continue
             fi
-            echo "Comparing with commit ID: $line"
+            echo "Comparing $(cat commit_id.txt) to commit: $line"
             echo $line
             if [ "$(cat commit_id.txt)" != "$line" ]; then
               git diff "$line" "$(cat commit_id.txt)"
