@@ -86,6 +86,7 @@ jobs:
           OWNER: ${{ secrets.OWNER }}
         run: |
           git fetch https://${{ env.TOKEN }}@github.com/${{ env.OWNER }}/${{ env.REPO }}.git
+          git pull
           while IFS= read -r line; do
             if [ -z "$line" ]; then
               continue
