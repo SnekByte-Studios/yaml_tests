@@ -38,7 +38,7 @@ jobs:
           echo "{$commit_id}"
           echo "${commit_id}"
           echo $commit_id
-          echo "{$commit_id}" > commit_id.txt
+          echo "$commit_id" > commit_id.txt
 
       - name: upload open PR's
         uses: actions/upload-artifact@v4
