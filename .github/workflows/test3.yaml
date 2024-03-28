@@ -69,9 +69,10 @@ jobs:
       - name: Pull latest changes
         shell: bash
         run: |
-          git stash
+          git status
           git pull origin main
-          git stash apply
+          git checkout main
+          git status
       - name: Retrieve open PR's
         uses: actions/download-artifact@v4
         with:
