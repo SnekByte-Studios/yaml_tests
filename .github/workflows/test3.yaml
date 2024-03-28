@@ -94,6 +94,7 @@ jobs:
         run: |
           git fetch https://${{ env.TOKEN }}@github.com/${{ env.OWNER }}/${{ env.REPO }}.git
           git checkout main
+          git pull
           while IFS= read -r line; do
             if [ -z "$line" ]; then
               continue
