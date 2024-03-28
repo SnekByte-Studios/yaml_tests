@@ -73,8 +73,5 @@ jobs:
           echo "ID's in artifact:"
           while IFS= read -r line; do
             echo $line
-            if [ "$commit_id" != "$line" ]; then
-              #git diff `cat commit_id.txt` $line
-            fi
           done < open_prs.txt
 ...
