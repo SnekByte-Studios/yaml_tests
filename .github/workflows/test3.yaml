@@ -58,8 +58,7 @@ jobs:
       - name: downloading
         uses: actions/download-artifact@v4
         with:
-          - name: open_prs # must match the name of artifact
-          - name: commit_id
+          - name: [open_prs, commit_id] # must match the name of artifact
       - shell: bash
         run: |
           while IFS= read -r line; do
