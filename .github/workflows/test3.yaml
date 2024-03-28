@@ -70,10 +70,6 @@ jobs:
           name: commit_id
       - name: Checkout Repository
         uses: actions/checkout@v4
-        uses: actions/setup-node@v4
-        with:
-          node-version: '14'
-        run: npm install -g bats
       - shell: bash
         name: Print me
         env:
