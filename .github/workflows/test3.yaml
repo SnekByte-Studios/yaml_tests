@@ -8,11 +8,11 @@ jobs:
     name: keke
     runs-on: ubuntu-latest
     steps:
-      env:
-        USERNAME: "Ryboster"
-        TOKEN: ${{ secrets.SECRET_TOKEN }}
-        REPO: ${{ secrets.REPO }}
-        OWNER: ${{ secrets.OWNER }}
+      - env:
+          USERNAME: "Ryboster"
+          TOKEN: ${{ secrets.SECRET_TOKEN }}
+          REPO: ${{ secrets.REPO }}
+          OWNER: ${{ secrets.OWNER }}
       - shell: bash
         run: |
           open_request_ids=`curl -L \
