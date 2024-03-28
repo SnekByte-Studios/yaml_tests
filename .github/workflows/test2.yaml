@@ -39,7 +39,7 @@ jobs:
       TOKEN: ${{ secrets.SECRET_TOKEN }}
       REPO: ${{ secrets.REPO }}
       OWNER: ${{ secrets.OWNER }}
-      TEST: ${{ steps.fetch.outputs.test }}
+      TEST: ${{ needs.setup.fetch.outputs.test }}
     steps:
       - name: Print me
         run: |
