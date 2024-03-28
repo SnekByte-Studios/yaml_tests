@@ -33,6 +33,7 @@ jobs:
             echo $open_request_id
           done
           echo $test
+          echo $testme
 
   job2:
     needs: setup
