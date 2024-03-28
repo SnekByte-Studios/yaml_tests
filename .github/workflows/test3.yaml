@@ -78,6 +78,7 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
+          echo `cat commit_id.txt`
           while IFS= read -r line; do
             if [ -z "$line" ]; then
               continue
@@ -85,7 +86,7 @@ jobs:
             
             echo $line
             if [ "$commit_id" != "$line" ]; then
-              git diff "$(cat commit_id.txt)" $line
+              git diff "$`cat commit_id.txt`" $line
             fi
           done < open_prs.txt
 ...
