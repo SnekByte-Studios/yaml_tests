@@ -25,9 +25,9 @@ jobs:
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ env.TOKEN }}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls`
-
-          echo "open_request_ids=${open_request_ids}"
+          https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
+          | jq -r .[].head.sha` 
+          echo "open_request_ids=${open_request_ids}" >> "$GITHUB_ENV"
 
   job2:
     needs: setup
@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: Print me
         run: |
-          echo ${{ needs.setup.outputs.open_request_ids }}
+          echo $open_request_ids
           echo ${{ env.USERNAME }}
           echo ${{ env.OWNER }}
           echo ${{ env.REPO }}
