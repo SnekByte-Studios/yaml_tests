@@ -45,8 +45,8 @@ jobs:
       - name: upload variables
         uses: actions/upload-artifact@v4
         with:
-          name: other_file
-          path: other_file.txt
+          name: commit_id
+          path: commit_id.txt
 
 
 
@@ -59,10 +59,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           - name: open_prs # must match the name of artifact
-          - name: another_file
+          - name: commit_id
       - shell: bash
         run: |
           while IFS= read -r line; do
             echo $line
           done < open_prs.txt
+          echo `cat $commit_id`
 ...
