@@ -14,7 +14,7 @@ jobs:
         shell: bash
 
         env:
-          USERNAME: "Ryboster"
+          USERNAME: $ {{ secrets.AUTH_UNAME }}
           TOKEN: ${{ secrets.SECRET_TOKEN }}
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
@@ -92,10 +92,7 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
-          git fetch https://${{ env.TOKEN }}@github.com/${{ env.OWNER }}/${{ env.REPO }}.git
-          git status
-          git checkout main
-          git pull
+
           while IFS= read -r line; do
             if [ -z "$line" ]; then
               continue
