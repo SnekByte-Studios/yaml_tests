@@ -1,19 +1,28 @@
 ---
-name: yes
+name: Artifact tests
 on:
   push:
 
 jobs:
-  job1:
+  upload-artifacts:
     runs-on: ubuntu-latest
     steps:
-      - name: Set the value
-        id: step_one
+      - run: mkdir -p /artifacts/
+      - run: echo "value1" > /artifacts/art1.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: /artifacts/art1.txt
+          
+  download-artifacts:
+    needs: upload-artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download an artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: downloadme
         run: |
-          echo "action_state=yellow" >> "$GITHUB_ENV"
-      - name: Use the value
-        id: step_two
-        run: |
-          printf '%s\n' "$action_state" # This will output 'yellow'
-          echo $action_state
+          value=`cat /artifacts/art1.txt`
+          echo $value
 ...
