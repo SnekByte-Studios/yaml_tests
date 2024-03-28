@@ -9,8 +9,6 @@ jobs:
     name: setup
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
       - name: Get variables
         shell: bash
 
@@ -62,6 +60,8 @@ jobs:
     runs-on: ubuntu-latest
     name: download
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
       - name: Retrieve open PR's
         uses: actions/download-artifact@v4
         with:
