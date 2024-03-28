@@ -83,6 +83,7 @@ jobs:
         run: |
           ls
           ls ..
+          echo `cat README.md`
           echo `cat commit_id.txt`
           while IFS= read -r line; do
             if [ -z "$line" ]; then
