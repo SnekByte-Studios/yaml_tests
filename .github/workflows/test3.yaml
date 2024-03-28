@@ -79,6 +79,10 @@ jobs:
           OWNER: ${{ secrets.OWNER }}
         run: |
           while IFS= read -r line; do
+            if [ -z "$line ]; then
+              continue
+            fi
+            
             echo $line
             if [ "$commit_id" != "$line" ]; then
               git diff "$(cat commit_id.txt)" $line
