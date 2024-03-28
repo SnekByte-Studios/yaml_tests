@@ -5,6 +5,7 @@ on:
     types: [opened, reopened]
 
 jobs:
+
   upload-artifacts:
     name: setup
     runs-on: ubuntu-latest
@@ -18,8 +19,10 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
-          
+          # Clear open_prs
           echo "" > open_prs.txt
+          
+          # Get open PR's HEAD's
           open_request_ids=`curl -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ env.TOKEN }}" \
@@ -27,12 +30,14 @@ jobs:
           https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
           | jq -r .[].head.sha`
           
+          # Repopulate open_prs
           for id in $open_request_ids
           do
             echo "${id}" >> open_prs.txt
           done
           echo .pull_request
           
+          # Get trigger commit HEAD
           pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
           commit_id=$(curl -L \
           -H "Accept: application/vnd.github.v3+json" \
@@ -40,9 +45,7 @@ jobs:
           "$pull_request_url" \
           | jq -r '.head.sha')
           
-          echo "{$commit_id}"
-          echo "${commit_id}"
-          echo $commit_id
+          # Overwrite most recent commit HEAD
           echo "$commit_id" > commit_id.txt
 
       - name: upload open PR's
@@ -58,31 +61,26 @@ jobs:
           path: commit_id.txt
 
 
-
   download-artifacts:
     needs: upload-artifacts
     runs-on: ubuntu-latest
     name: download
     steps:
-      - name: Checkout Repository
+      - name: Get Repository
         uses: actions/checkout@v4
-      - name: Pull latest changes
+      - name: Pull Latest Changes
         shell: bash
         run: |
-          touch k
-          git config --global user.email "kakashise@o2.pl"
-          git config --global user.name "Ryboster"
+          git config --global user.email ${{ secrets.AUTH_EMAIL }}
+          git config --global user.name ${{ secrets.AUTH_UNAME }}
           git config pull.rebase true
-          git status
-          ls
           git pull origin main
           git checkout main
-          git status
-      - name: Retrieve open PR's
+      - name: Retrieve Open PR's
         uses: actions/download-artifact@v4
         with:
           name: open_prs # must match the name of artifact
-      - name: Retrieve commit ID
+      - name: Retrieve Commit ID
         uses: actions/download-artifact@v4
         with:
           name: commit_id
