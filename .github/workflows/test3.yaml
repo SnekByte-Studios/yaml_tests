@@ -26,6 +26,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: art1
+          
+      - shell: bash
         run: |
           value=`cat art1.txt`
           echo $value
