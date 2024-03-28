@@ -91,7 +91,7 @@ jobs:
             fi
             echo "Comparing with commit ID: $line"
             echo $line
-            if [ "$(cat commit_id)" != "$line" ]; then
+            if [ "$(cat commit_id.txt)" != "$line" ]; then
               git diff "$line" "$(cat commit_id.txt)"
             else
               echo "cant compare self"

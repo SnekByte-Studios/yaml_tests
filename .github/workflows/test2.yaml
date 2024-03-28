@@ -11,36 +11,15 @@ jobs:
       TOKEN: ${{ secrets.SECRET_TOKEN }}
       REPO: ${{ secrets.REPO }}
       OWNER: ${{ secrets.OWNER }}
+      PR_ID: "93b9fe1a4de087f7ea45c3920c2e7161cc778483"
 
     steps:
-      - name: Fetch Variables
-        id:  fetch
+      - name: Close PR
         run: |
-          open_request_ids=`curl -L \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ env.TOKEN }}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
-          | jq -r .[].head.sha`
-          echo "test=kek" >> "$GITHUB_ENV"
-      - name: newone
-        id: print1
+          URL="https://api.github.com/repos/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID}"
+          curl -X PATCH -H "Authorization: token ${env.TOKEN}" -d '{"state": "closed"}' "${URL}"
+      - name: Open PR
         run: |
-          echo $test
-  job2:
-    needs: setup
-    runs-on: ubuntu-latest
-    env:
-      USERNAME: "Ryboster"
-      TOKEN: ${{ secrets.SECRET_TOKEN }}
-      REPO: ${{ secrets.REPO }}
-      OWNER: ${{ secrets.OWNER }}
-    steps:
-      - name: Print me
-        run: |
-          echo $test
-          echo ${{ needs.setup.test }}
-          echo ${{ env.USERNAME }}
-          echo ${{ env.OWNER }}
-          echo ${{ env.REPO }}
+          URL="https://api.github.com/repos/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID}/reopen"
+          curl -X POST -H "Authorization: token ${env.TOKEN}" "${URL}"
 ...
