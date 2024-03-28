@@ -92,7 +92,7 @@ jobs:
             
             echo $line
             if [ "$commit_id" != "$line" ]; then
-              git diff `cat commit_id.txt` $line
+              git diff "$line" "$cat commit_id.txt"
             else
               echo "cant compare self"
             fi
