@@ -69,8 +69,8 @@ jobs:
           name: commit_id
       - shell: bash
         run: |
+          echo `cat commit_id.txt`
           while IFS= read -r line; do
             echo $line
           done < open_prs.txt
-          echo `cat $commit_id`
 ...
