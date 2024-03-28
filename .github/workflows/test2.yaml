@@ -26,9 +26,9 @@ jobs:
           | jq -r .[].head.sha)
           for id in ${open_request_ids[@]}
           do
-            echo "open_request_ids=${id}" >> "$GITHUB_ENV"
+            echo "open_request_id=${id}" >> "$GITHUB_ENV"
             echo $id
-            echo "${id}"
+            echo $open_request_id
           done
 
   job2:
@@ -42,8 +42,8 @@ jobs:
     steps:
       - name: Print me
         run: |
-          echo $open_request_ids
-          echo ${{ env.open_request_ids }}
+          echo $open_request_id
+          echo ${{ env.open_request_id }}
           echo ${{ env.USERNAME }}
           echo ${{ env.OWNER }}
           echo ${{ env.REPO }}
