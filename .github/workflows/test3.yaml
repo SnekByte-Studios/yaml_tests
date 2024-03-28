@@ -5,10 +5,12 @@ on:
 
 jobs:
   upload-artifacts:
-    name: keke
+    name: setup
     runs-on: ubuntu-latest
     steps:
-      - shell: bash
+      - name: Get variables
+        shell: bash
+
         env:
           USERNAME: "Ryboster"
           TOKEN: ${{ secrets.SECRET_TOKEN }}
@@ -25,21 +27,39 @@ jobs:
           do
             echo $id >> open_prs.txt
           done
-      - name: uploadme
+
+          commit_id=$(curl -L \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: Bearer ${{ env.TOKEN }}" \
+          "$pull_request_url" \
+          | jq -r '.head.sha')
+
+          echo $commit_id > commit_id.txt
+
+      - name: upload open PR's
         uses: actions/upload-artifact@v4
         with:
           name: open_prs
           path: open_prs.txt
+          
+      - name: upload variables
+        uses: actions/upload-artifact@v4
+        with:
+          name: other_file
+          path: other_file.txt
+
+
 
   download-artifacts:
     needs: upload-artifacts
     runs-on: ubuntu-latest
-    name: downloadme
+    name: download
     steps:
       - name: downloading
         uses: actions/download-artifact@v4
         with:
-          name: open_prs # must match the name of artifact
+          - name: open_prs # must match the name of artifact
+          - name: another_file
       - shell: bash
         run: |
           while IFS= read -r line; do
