@@ -28,6 +28,7 @@ jobs:
           do
             echo "open_request_id=${id}" >> "$GITHUB_ENV"
             echo $id
+            echo ${{ env.open_request_id }}
             echo $open_request_id
           done
 
