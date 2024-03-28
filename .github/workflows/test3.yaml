@@ -9,10 +9,10 @@ jobs:
     uses: actions/upload-artifact@v4
     steps:
       - run: mkdir -p /artifacts/
-      - run: echo "value1" > /artifacts/art1.txt
+      - run: echo "value1" > art1.txt
         with:
           name: my-artifact
-          path: /artifacts/art1.txt
+          path: art1.txt
           
   download-artifacts:
     needs: upload-artifacts
@@ -23,6 +23,6 @@ jobs:
         with:
           name: downloadme
         run: |
-          value=`cat /artifacts/art1.txt`
+          value=`cat art1.txt`
           echo $value
 ...
