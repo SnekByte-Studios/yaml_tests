@@ -11,15 +11,15 @@ jobs:
       TOKEN: ${{ secrets.SECRET_TOKEN }}
       REPO: ${{ secrets.REPO }}
       OWNER: ${{ secrets.OWNER }}
-      PR_ID: "93b9fe1a4de087f7ea45c3920c2e7161cc778483"
+      PR_ID: "7"
 
     steps:
       - name: Close PR
         run: |
-          URL="https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${{ env.PR_ID }}"
+          URL="https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pull/${{ env.PR_ID }}"
           curl -X PATCH -H "Authorization: token ${{ env.TOKEN }}" -d '{"state": "closed"}' "${URL}"
       - name: Open PR
         run: |
-          URL="https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${{ env.PR_ID }}/reopen"
+          URL="https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pull/${{ env.PR_ID }}/reopen"
           curl -X POST -H "Authorization: token ${{ env.TOKEN }}" "${URL}"
 ...
