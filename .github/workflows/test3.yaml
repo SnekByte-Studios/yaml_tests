@@ -17,6 +17,8 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
+          git fetch https://${{ env.TOKEN }}@github.com/${{ env.OWNER }}/${{ env.REPO }}.git
+
           open_request_ids=$(`curl -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ env.TOKEN }}" \
