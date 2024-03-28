@@ -1,5 +1,5 @@
 ---
-name: Testmepls
+name: reopen PR
 on:
   push:
 
@@ -16,10 +16,10 @@ jobs:
     steps:
       - name: Close PR
         run: |
-          URL="https://api.github.com/repos/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID}"
-          curl -X PATCH -H "Authorization: token ${env.TOKEN}" -d '{"state": "closed"}' "${URL}"
+          URL="https://api.github.com/repos/${{ env.OWNER }}/${env.REPO}/pulls/${{ env.PR_ID }}"
+          curl -X PATCH -H "Authorization: token ${{ env.TOKEN }}" -d '{"state": "closed"}' "${URL}"
       - name: Open PR
         run: |
-          URL="https://api.github.com/repos/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID}/reopen"
-          curl -X POST -H "Authorization: token ${env.TOKEN}" "${URL}"
+          URL="https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${{ env.PR_ID }}/reopen"
+          curl -X POST -H "Authorization: token ${{ env.TOKEN }}" "${URL}"
 ...
