@@ -25,10 +25,6 @@ jobs:
           https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
           | jq -r .[].head.sha)
           echo "test=testme" >> "$GITHUB_ENV"
-          for id in ${open_request_ids[@]}
-          do
-            echo "open_request_id=kek" >> "$GITHUB_ENV"
-          done
   job2:
     needs: setup
     runs-on: ubuntu-latest
@@ -37,10 +33,13 @@ jobs:
       TOKEN: ${{ secrets.SECRET_TOKEN }}
       REPO: ${{ secrets.REPO }}
       OWNER: ${{ secrets.OWNER }}
+    strategy:
+      matrix:
+        kek: ${{ needs.setup.outputs.test }}
     steps:
       - name: Print me
         run: |
-          echo $test
+          echo ${{ matrix.kek }}
           echo ${{ env.USERNAME }}
           echo ${{ env.OWNER }}
           echo ${{ env.REPO }}
