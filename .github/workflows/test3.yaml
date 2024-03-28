@@ -6,10 +6,10 @@ on:
 jobs:
   upload-artifacts:
     runs-on: ubuntu-latest
+    uses: actions/upload-artifact@v4
     steps:
       - run: mkdir -p /artifacts/
       - run: echo "value1" > /artifacts/art1.txt
-      - uses: actions/upload-artifact@v4
         with:
           name: my-artifact
           path: /artifacts/art1.txt
@@ -17,9 +17,9 @@ jobs:
   download-artifacts:
     needs: upload-artifacts
     runs-on: ubuntu-latest
+    uses: actions/download-artifact@v4
     steps:
       - name: Download an artifact
-        uses: actions/download-artifact@v4
         with:
           name: downloadme
         run: |
