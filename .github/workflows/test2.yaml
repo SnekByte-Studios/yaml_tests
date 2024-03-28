@@ -24,13 +24,12 @@ jobs:
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
           | jq -r .[].head.sha)
-          echo "test=testme" >> "$GITHUB_OUTPUT"
+          echo "test=testme" >> "$GITHUB_ENV"
+          echo $test
           for id in ${open_request_ids[@]}
           do
             echo "open_request_id=kek" >> "$GITHUB_ENV"
           done
-          echo $test
-
   job2:
     needs: setup
     runs-on: ubuntu-latest
@@ -39,11 +38,9 @@ jobs:
       TOKEN: ${{ secrets.SECRET_TOKEN }}
       REPO: ${{ secrets.REPO }}
       OWNER: ${{ secrets.OWNER }}
-      TEST: ${{ needs.setup.fetch.outputs.test }}
     steps:
       - name: Print me
         run: |
-          echo ${{ env.TEST }}
           echo ${{ env.USERNAME }}
           echo ${{ env.OWNER }}
           echo ${{ env.REPO }}
