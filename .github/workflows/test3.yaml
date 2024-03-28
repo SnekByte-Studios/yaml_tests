@@ -1,7 +1,8 @@
 ---
 name: Artifact tests
 on:
-  push:
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   upload-artifacts:
@@ -27,7 +28,7 @@ jobs:
           do
             echo "${id}" >> open_prs.txt
           done
-          pull_request_url=$(jq -r .push.url "$GITHUB_EVENT_PATH")
+          pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
           commit_id=$(curl -L \
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: Bearer ${{ env.TOKEN }}" \
