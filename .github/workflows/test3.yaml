@@ -70,8 +70,9 @@ jobs:
           name: commit_id
       - shell: bash
         run: |
-          echo `cat commit_id.txt`
+          echo "ID's in artifact:"
           while IFS= read -r line; do
+            echo $line
             if [ "$commit_id" != "$line" ]; then
               git diff `cat commit_id.txt` $line
             fi
