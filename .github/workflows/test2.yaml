@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Close PR
         run: |
-          URL="https://api.github.com/repos/${{ env.OWNER }}/${env.REPO}/pulls/${{ env.PR_ID }}"
+          URL="https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${{ env.PR_ID }}"
           curl -X PATCH -H "Authorization: token ${{ env.TOKEN }}" -d '{"state": "closed"}' "${URL}"
       - name: Open PR
         run: |
