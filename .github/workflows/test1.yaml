@@ -1,6 +1,7 @@
 ---
 name: Automatic Diversion Resolution
 on:
+  discussion:
 #  pull_request:
 #    types: [opened, reopened]
 #  push:
