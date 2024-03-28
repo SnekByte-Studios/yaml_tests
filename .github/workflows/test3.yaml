@@ -17,7 +17,7 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
-          git fetch https://github.com/${{ env.OWNER }}/${{ env.REPO }}.git
+          git fetch https://github.com/SnekByte-Studios/yaml_tests.git
 
           open_request_ids=$(`curl -L \
           -H "Accept: application/vnd.github+json" \
