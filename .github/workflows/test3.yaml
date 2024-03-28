@@ -39,7 +39,7 @@ jobs:
       - name: downloading
         uses: actions/download-artifact@v4
         with:
-          name: test_artifact
+          name: open_prs # must match the name of artifact
       - shell: bash
         run: |
           while IFS= read -r line; do
