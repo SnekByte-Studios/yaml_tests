@@ -58,11 +58,11 @@ jobs:
       - name: Retrieve open PR's
         uses: actions/download-artifact@v4
         with:
-          - name: open_prs # must match the name of artifact
+          name: open_prs # must match the name of artifact
       - name: Retrieve commit ID
         uses: actions/download-artifact@v4
         with:
-          - name: commit_id
+          name: commit_id
       - shell: bash
         run: |
           while IFS= read -r line; do
