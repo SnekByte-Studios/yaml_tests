@@ -74,6 +74,7 @@ jobs:
           git config --global user.name "Ryboster"
           git config pull.rebase true
           git status
+          ls
           git pull origin main
           git checkout main
           git status
