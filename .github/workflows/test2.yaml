@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: Print me
         run: |
-          echo $open_request_ids
+          echo ${{ env.open_request_ids }}
           echo ${{ env.USERNAME }}
           echo ${{ env.OWNER }}
           echo ${{ env.REPO }}
