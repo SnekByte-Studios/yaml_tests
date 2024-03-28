@@ -94,7 +94,7 @@ jobs:
             if [ "$commit_id" != "$line" ]; then
               git diff `cat commit_id.txt` $line
             else
-              echo "cant compare self'
+              echo "cant compare self"
             fi
           done < open_prs.txt
 ...
