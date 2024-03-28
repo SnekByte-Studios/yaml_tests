@@ -69,6 +69,7 @@ jobs:
       - name: Pull latest changes
         shell: bash
         run: |
+          git config pull.rebase true
           git status
           git pull origin main
           git checkout main
