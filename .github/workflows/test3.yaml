@@ -69,13 +69,14 @@ jobs:
         with:
           name: commit_id
       - shell: bash
+        name: Print me
         env:
           USERNAME: "Ryboster"
           TOKEN: ${{ secrets.SECRET_TOKEN }}
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
-          git fetch https://github.com/${{ env.OWNER }}/${{ env.REPO }}.git
+          git fetch https://${{ env.TOKEN }}@github.com/${{ env.OWNER }}/${{ env.REPO }}.git
         
           while IFS= read -r line; do
             echo $line
