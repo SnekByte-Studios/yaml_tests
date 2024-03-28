@@ -79,7 +79,7 @@ jobs:
           OWNER: ${{ secrets.OWNER }}
         run: |
           while IFS= read -r line; do
-            if [ -z "$line ]; then
+            if [ -z "$line" ]; then
               continue
             fi
             
