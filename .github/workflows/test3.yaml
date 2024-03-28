@@ -68,6 +68,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: commit_id
+      - name: Checkout Repository
+        uses: actions/checkout@v2
       - shell: bash
         name: Print me
         env:
@@ -76,8 +78,6 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
-          git fetch https://${{ env.TOKEN }}@github.com/${{ env.OWNER }}/${{ env.REPO }}.git
-        
           while IFS= read -r line; do
             echo $line
             if [ "$commit_id" != "$line" ]; then
