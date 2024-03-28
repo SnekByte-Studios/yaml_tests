@@ -92,7 +92,8 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
         run: |
-
+          git fetch https://${{ env.TOKEN }}@github.com/${{ env.OWNER }}/${{ env.REPO }}.git
+          git checkout main
           while IFS= read -r line; do
             if [ -z "$line" ]; then
               continue
