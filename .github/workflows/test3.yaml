@@ -5,15 +5,18 @@ on:
 
 jobs:
   upload-artifacts:
+    name: keke
     runs-on: ubuntu-latest
-    uses: actions/upload-artifact@v4
     steps:
-      - run: mkdir -p /artifacts/
-      - run: echo "value1" > art1.txt
+      - shell: bash
+        run: |
+          echo value1 > art1.txt
+      - name: uploadme
+        uses: actions/upload-artifact@v4
         with:
-          name: my-artifact
+          name: uploading
           path: art1.txt
-          
+
   download-artifacts:
     needs: upload-artifacts
     runs-on: ubuntu-latest
