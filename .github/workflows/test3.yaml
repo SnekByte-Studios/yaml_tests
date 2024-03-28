@@ -66,9 +66,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Reveal Directory
+      - name: Pull latest changes
         shell: bash
-        run: ls
+        run: git pull origin main
       - name: Retrieve open PR's
         uses: actions/download-artifact@v4
         with:
