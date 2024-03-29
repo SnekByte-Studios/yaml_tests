@@ -1,5 +1,5 @@
 ---
-name: Artifact tests
+name: Changes Comparison
 
 # Trigger: PR must be opened or reopened.
 on:
