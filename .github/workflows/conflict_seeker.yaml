@@ -29,7 +29,8 @@ jobs:
           # Clear open_prs
           echo "" > open_prs.txt
           
-          # Get open PR's HEAD's
+          printf "Scraping open PR HEADs"
+          # Get open PRs' HEADs
           if open_request_ids=`curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
@@ -37,12 +38,16 @@ jobs:
             https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
             | jq -r .[].head.sha`; then
             
+            
+            
             # Repopulate open_prs
             for id in $open_request_ids
             do
+              printf "."
               echo "${id}" >> open_prs.txt
             done
-            echo .pull_request
+            printf "SUCCESS!\n"
+            
           else
             echo "Failed to scrape open request HEADs."
             echo "Confirm the repository secrets' values."
