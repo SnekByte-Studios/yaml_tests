@@ -45,6 +45,7 @@ jobs:
             echo .pull_request
           else
             echo "failed"
+          fi
           
           # Get URL of the trigger PR
           pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
