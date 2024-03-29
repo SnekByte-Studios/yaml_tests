@@ -49,7 +49,7 @@ jobs:
           else
             printf "FAILED!\n"
             echo "Failed to scrape open request HEADs."
-            echo "Confirm the repository secrets' values."
+            echo "Confirm the URL is correct."
             exit 1
           fi
           
