@@ -32,7 +32,7 @@ jobs:
           # Get open PR's HEAD's
           if open_request_ids=`curl -L \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer fgh${{ env.TOKEN }}" \
+            -H "Authorization: Bearer ${{ env.TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
             | jq -r .[].head.sha`; then
@@ -44,21 +44,26 @@ jobs:
             done
             echo .pull_request
           else
-            echo "failed"
+            echo "Failed to scrape open request HEADs."
+            echo "Confirm the repository secrets' values."
           fi
           
           # Get URL of the trigger PR
           pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
           
           # Get trigger commit HEAD
-          commit_id=$(curl -L \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: Bearer ${{ env.TOKEN }}" \
-          "$pull_request_url" \
-          | jq -r '.head.sha')
-          
-          # Overwrite most recent commit HEAD
-          echo "$commit_id" > commit_id.txt
+          if commit_id=$(curl -L \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ env.TOKEN }}" \
+            "$pull_request_url" \
+            | jq -r '.head.sha'); then
+            
+            # Overwrite most recent commit HEAD
+            echo "$commit_id" > commit_id.txt
+          else
+            echo "Couldn't retrieve trigger PR's HEAD"
+            echo "Confirm your token hasn't expired."
+          fi
 
         # Upload the env files. name is ID. Must match downloads.
       - name: upload open PR commit HEADs
