@@ -143,14 +143,12 @@ jobs:
             
             # Iterate through open PR commit HEADs
             while IFS= read -r line; do
-            
               # First line is empty. If empty, continue
               if [ -z "$line" ]; then
                 continue
               fi
-            
               echo "Comparing $(cat commit_id.txt) to commit: $line"
-            
+              
               # if commit HEAD is different to trigger commit HEAD,
               # Compare the commits for conflicts.
               if [ "$(cat commit_id.txt)" != "$line" ]; then
@@ -161,7 +159,6 @@ jobs:
                 echo "Can't compare self"
                 continue
               fi
-            
             done < open_prs.txt
           else
             echo "No open_prs.txt or commit_id.txt in directory"
