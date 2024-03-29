@@ -87,7 +87,7 @@ jobs:
       - shell: bash
         name: Print me
         env:
-          USERNAME: "Ryboster"
+          USERNAME: ${{ secrets.AUTH_UNAME }}
           TOKEN: ${{ secrets.SECRET_TOKEN }}
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
