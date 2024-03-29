@@ -139,7 +139,7 @@ jobs:
           # Update repository after downloading artifacts
           git pull
           
-          if [ -e "open_prs1.txt" ] && [ -e "commit_id1.txt" ]; then
+          if [ -e "open_prs.txt" ] && [ -e "commit_id.txt" ]; then
             
             # Iterate through open PR commit HEADs
             while IFS= read -r line; do
@@ -162,6 +162,6 @@ jobs:
             done < open_prs.txt
           else
             echo "No open_prs.txt or commit_id.txt in directory"
-            exit 0
+            exit 1
           fi
 ...
