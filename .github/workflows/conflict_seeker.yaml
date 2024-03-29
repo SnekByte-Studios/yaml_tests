@@ -108,6 +108,8 @@ jobs:
           git config pull.rebase true
           git pull origin main
           git checkout main
+        # Ensure this step finished successfully before continuing,
+        # Else end task.
         if: ${{ success() }}
           
         # Download artifacts. Must execute after checkout.
@@ -137,26 +139,31 @@ jobs:
           # Update repository after downloading artifacts
           git pull
           
-          # Iterate through open PR commit HEADs
-          while IFS= read -r line; do
+          if [ -e "open_prs.txt" ] && [ -e "commit_id.txt" ]; then
             
-            # First line is empty. If empty, continue
-            if [ -z "$line" ]; then
-              continue
-            fi
+            # Iterate through open PR commit HEADs
+            while IFS= read -r line; do
             
-            echo "Comparing $(cat commit_id.txt) to commit: $line"
+              # First line is empty. If empty, continue
+              if [ -z "$line" ]; then
+                continue
+              fi
             
-            # if commit HEAD is different to trigger commit HEAD,
-            # Compare the commits for conflicts.
-            if [ "$(cat commit_id.txt)" != "$line" ]; then
-              git diff "$line" "$(cat commit_id.txt)"
+              echo "Comparing $(cat commit_id.txt) to commit: $line"
+            
+              # if commit HEAD is different to trigger commit HEAD,
+              # Compare the commits for conflicts.
+              if [ "$(cat commit_id.txt)" != "$line" ]; then
+                git diff "$line" "$(cat commit_id.txt)"
               
-            # if commit HEAD == trigger commit HEAD, continue
-            else
-              echo "Can't compare self"
-              continue
-            fi
+              # if commit HEAD == trigger commit HEAD, continue
+              else
+                echo "Can't compare self"
+                continue
+              fi
             
-          done < open_prs.txt
+            done < open_prs.txt
+          else
+            echo "No open_prs.txt or commit_id.txt in directory"
+            exit 1
 ...
