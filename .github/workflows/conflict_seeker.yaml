@@ -47,7 +47,7 @@ jobs:
             printf "SUCCESS!\n"
             
           else
-            prinf "FAILED!\n"
+            printf "FAILED!\n"
             echo "Failed to scrape open request HEADs."
             echo "Confirm the repository secrets' values."
             exit 1
@@ -68,7 +68,7 @@ jobs:
             printf "... SUCCESS!\n"
             
           else
-            prinf "... FAILED!\n"
+            printf "... FAILED!\n"
             echo "Couldn't retrieve trigger PR's HEAD"
             echo "Confirm your token hasn't expired."
             exit 1
