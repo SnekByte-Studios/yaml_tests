@@ -29,7 +29,7 @@ jobs:
           # Clear open_prs
           echo "" > open_prs.txt
           
-          printf "Scraping open PR HEADs"
+          printf "Scraping open PR HEADs "
           # Get open PRs' HEADs
           if open_request_ids=`curl -L \
             -H "Accept: application/vnd.github+json" \
@@ -49,25 +49,31 @@ jobs:
             printf "SUCCESS!\n"
             
           else
+            prinf "FAILED!\n"
             echo "Failed to scrape open request HEADs."
             echo "Confirm the repository secrets' values."
+            exit 1
           fi
           
           # Get URL of the trigger PR
           pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
           
+          printf "Scraping trigger commit HEAD "
           # Get trigger commit HEAD
           if commit_id=$(curl -L \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
             "$pull_request_url" \
             | jq -r '.head.sha'); then
-            
             # Overwrite most recent commit HEAD
             echo "$commit_id" > commit_id.txt
+            printf "... SUCCESS!\n"
+            
           else
+            prinf "... FAILED!\n"
             echo "Couldn't retrieve trigger PR's HEAD"
             echo "Confirm your token hasn't expired."
+            exit 1
           fi
 
         # Upload the env files. name is ID. Must match downloads.
