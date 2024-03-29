@@ -1,23 +1,30 @@
 ---
 name: Artifact tests
+
+# Trigger: PR must be opened or reopened.
 on:
   pull_request:
     types: [opened, reopened]
 
+# If trigger, do:
 jobs:
 
+  # Job #1 - Retrieve metadata and save it in env files.
   upload-artifacts:
     name: setup
     runs-on: ubuntu-latest
     steps:
-      - name: Get variables
+      - name: Scrape HEADs
         shell: bash
-
+        
+        # Scrape repository secrets and setup environment variables.
         env:
           USERNAME: $ {{ secrets.AUTH_UNAME }}
           TOKEN: ${{ secrets.SECRET_TOKEN }}
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
+          
+        # Get open requests' and the trigger request's HEADs and save them in env files.
         run: |
           # Clear open_prs
           echo "" > open_prs.txt
@@ -37,8 +44,10 @@ jobs:
           done
           echo .pull_request
           
-          # Get trigger commit HEAD
+          # Get URL of the trigger PR
           pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
+          
+          # Get trigger commit HEAD
           commit_id=$(curl -L \
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: Bearer ${{ env.TOKEN }}" \
@@ -48,26 +57,32 @@ jobs:
           # Overwrite most recent commit HEAD
           echo "$commit_id" > commit_id.txt
 
-      - name: upload open PR's
+        # Upload the env files. name is ID. Must match downloads.
+      - name: upload open PR commit HEADs
         uses: actions/upload-artifact@v4
         with:
           name: open_prs
           path: open_prs.txt
           
-      - name: upload variables
+      - name: upload trigger commit HEAD
         uses: actions/upload-artifact@v4
         with:
           name: commit_id
           path: commit_id.txt
 
-
+  # job #2 - Download the artifacts and use the data to compare changes between potentially divergent branches.
   download-artifacts:
     needs: upload-artifacts
     runs-on: ubuntu-latest
-    name: download
+    
+    name: Compare Changes
     steps:
+        # Get the repository,
       - name: Get Repository
         uses: actions/checkout@v4
+        
+        # Sign in as Ryboster, rebase local branch and checkout to main,
+        # Necessary to access the repository.
       - name: Pull Latest Changes
         shell: bash
         run: |
@@ -76,32 +91,54 @@ jobs:
           git config pull.rebase true
           git pull origin main
           git checkout main
+          
+        # Download artifacts. Must execute after checkout.
       - name: Retrieve Open PR's
         uses: actions/download-artifact@v4
         with:
-          name: open_prs # must match the name of artifact
+          # Must match
+          name: open_prs
       - name: Retrieve Commit ID
         uses: actions/download-artifact@v4
         with:
+          # Must match
           name: commit_id
+          
+        # Scrape repository secrets and setup environment variables.
       - shell: bash
-        name: Print me
+        name: Compare Changes
         env:
           USERNAME: ${{ secrets.AUTH_UNAME }}
           TOKEN: ${{ secrets.SECRET_TOKEN }}
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
+        
+        # Iterate through open PR commits and compare changes between
+        # The trigger commit and other PR commits.
         run: |
+          # Update repository after downloading artifacts
           git pull
+          
+          # Iterate through open PR commit HEADs
           while IFS= read -r line; do
+            
+            # First line is empty. If empty, continue
             if [ -z "$line" ]; then
               continue
             fi
+            
             echo "Comparing $(cat commit_id.txt) to commit: $line"
+            
+            # if commit HEAD is different to trigger commit HEAD,
+            # Compare the commits for conflicts.
             if [ "$(cat commit_id.txt)" != "$line" ]; then
               git diff "$line" "$(cat commit_id.txt)"
+              
+            # if commit HEAD == trigger commit HEAD, continue
             else
-              echo "cant compare self"
+              echo "Can't compare self"
+              continue
             fi
+            
           done < open_prs.txt
 ...
