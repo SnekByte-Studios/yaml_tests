@@ -162,5 +162,5 @@ jobs:
             done < open_prs.txt
           else
             echo "No open_prs.txt or commit_id.txt in directory"
-            exit 1
+            exit 0
 ...
