@@ -117,12 +117,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           # Must match
-          name: open_prs
+          name: open_prs1
       - name: Retrieve Commit ID
         uses: actions/download-artifact@v4
         with:
           # Must match
-          name: commit_id
+          name: commit_id1
           
         # Scrape repository secrets and setup environment variables.
       - shell: bash
