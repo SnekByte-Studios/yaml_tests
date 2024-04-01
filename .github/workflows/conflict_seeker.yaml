@@ -98,7 +98,7 @@ jobs:
       - name: Get Repository
         uses: actions/checkout@v4
         
-        # Sign in as Ryboster, rebase local branch and checkout to main,
+        # Sign in with username and email, rebase local branch and checkout to main,
         # Necessary to access the repository.
       - name: Pull Latest Changes
         shell: bash
