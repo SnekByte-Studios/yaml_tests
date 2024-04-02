@@ -150,7 +150,9 @@ jobs:
                 if git rebase "$line"; then
                   successful_rebases+="$line"
                 else
-                  curl -H "Content-Type" `
+                  curl -H "Content-Type: application/json" POST -d '{"username": "Conflict Seeker", \
+                  "content": "'"$successful_prs"'encountered a conflict rebasing '"${content}"'"}' \
+                  ${{ env.WEBHOOK }}
                 #{ git rebase $line;successful_rebases+=("$line")}|| { curl -H "Content-Type: application/json" \
                 #POST -d '{"username": "Conflict Seeker", \
                 #"content": "'"$successful_prs"'encountered a conflict rebasing '"${content}"'"}' \
