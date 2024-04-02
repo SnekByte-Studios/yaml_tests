@@ -147,9 +147,9 @@ jobs:
                 continue
               else
                 content="$line"
-                git rebase $line || { 
+                {git rebase $line; successful_rebases+="$line"} || { 
             curl -H "Content-Type: application/json" -X POST -d \
-            '{"username": "Conflict Seeker", "content": "'"${successful_prs} encountered a conflict rebasing ${content}"'"}' \
+            '{"username": "Conflict Seeker", "content": "'"${successful_rebases} encountered a conflict rebasing ${content}"'"}' \
             "${WEBHOOK}"; 
             exit 1; 
           }
