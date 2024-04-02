@@ -66,7 +66,6 @@ jobs:
             # Overwrite most recent commit HEAD
             echo "$commit_id" > commit_id.txt
             printf "... SUCCESS!\n"
-            
           else
             printf "... FAILED!\n"
             echo "Couldn't retrieve trigger PR's HEAD"
@@ -81,11 +80,7 @@ jobs:
           name: open_prs
           path: open_prs.txt
           
-      - name: upload trigger commit HEAD
-        uses: actions/upload-artifact@v4
-        with:
-          name: commit_id
-          path: commit_id.txt
+      
 
   # job #2 - Download the artifacts and use the data to compare changes between potentially divergent branches.
   download-artifacts:
@@ -118,12 +113,7 @@ jobs:
         with:
           # Must match
           name: open_prs
-      - name: Retrieve Commit ID
-        uses: actions/download-artifact@v4
-        with:
-          # Must match
-          name: commit_id
-          
+      
         # Scrape repository secrets and setup environment variables.
       - shell: bash
         name: Compare Changes
@@ -139,7 +129,7 @@ jobs:
           successful_rebases=("*main* -> \n")
           # Update repository after downloading artifacts
           git pull
-          if [ -e "open_prs.txt" ] && [ -e "commit_id.txt" ]; then
+          if [ -e "open_prs.txt" ]; then
             # Iterate through open PR commit HEADs
             while IFS= read -r line; do
               # First line is empty. If empty, continue
@@ -152,11 +142,12 @@ jobs:
                 "${WEBHOOK}"; 
                 exit 1;
                 }
-                successful_rebases+="*${line}* -> \n";
+                branch_name=`git branch --contains ${line}`
+                successful_rebases+="*${line}* (${branch_name})-> \n";
               fi
             done < open_prs.txt
           else
-            echo "No open_prs.txt or commit_id.txt in directory"
+            echo "No open_prs.txt in directory"
             exit 1
           fi
 ...
