@@ -143,6 +143,7 @@ jobs:
                 exit 1;
                 }
                 branch_name=`git branch --contains "${line}"`
+                echo "BRANCH NAME!!!!!!!!"
                 echo "$branch_name"
                 successful_rebases+="*${line}* (${branch_name})-> \n";
               fi
