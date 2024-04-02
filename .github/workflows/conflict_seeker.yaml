@@ -152,7 +152,7 @@ jobs:
                 "${WEBHOOK}"; 
                 exit 1;
                 }
-                successful_rebases+="$line";
+                successful_rebases+="$line \n";
               fi
             done < open_prs.txt
           else
