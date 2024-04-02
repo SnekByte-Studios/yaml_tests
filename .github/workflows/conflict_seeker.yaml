@@ -48,6 +48,7 @@ jobs:
             https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
             | jq -r .[].head.sha`; then
             echo "$open_head"
+            fi
             
             if open_branch_name=`curl -L \
             -H "Accept: application/vnd.github+json" \
@@ -56,6 +57,7 @@ jobs:
             https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
             | jq -r .[].head.ref`; then
             echo "$open_branch_name"
+            fi
             
             if open_url=`curl -L \
             -H "Accept: application/vnd.github+json" \
@@ -64,12 +66,14 @@ jobs:
             https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
             | jq -r .[].url`; then
             echo "$open_url"
+            fi
             
             if [open_url] && [open_branch_name] && [open_head]; then
               data_json="{\"name\": \"$open_branch_name\", \"head\": \"$open_head\", \"url\": \"$open_url\"}"
               echo "$data_json" >> open_prs.txt
               printf "SAVED "
               printf "$data_json"
+            fi
           done < "$open_ids"
 
         # Upload the env files. name is ID. Must match downloads.
