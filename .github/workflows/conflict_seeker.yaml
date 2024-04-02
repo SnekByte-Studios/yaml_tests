@@ -151,7 +151,7 @@ jobs:
               else
                 echo ${{ env.PAYLOAD }}
                 git rebase $line || { curl -H "Content-Type: application/json" \
-                -X POST -d ${{ env.PAYLOAD }} "${{ env.WEBHOOK }}"; exit 1; }
+                -X POST -d ${{ env.PAYLOAD }} ${{ env.WEBHOOK }}; exit 1; }
               fi
             done < open_prs.txt
           else
