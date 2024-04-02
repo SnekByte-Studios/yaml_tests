@@ -146,7 +146,7 @@ jobs:
                 echo "BRANCH NAME!!!!!!!!"
                 echo "$line"
                 echo "$branch_name"
-                successful_rebases+="*${line}* (${branch_name})-> \n";
+                successful_rebases+="*`echo ${line}`* (`echo ${branch_name}`)-> \n";
               fi
             done < open_prs.txt
           else
