@@ -41,11 +41,13 @@ jobs:
           fi
           
           while IFS= read -r line; do
+            printf "LINE: "
+            prinf "$line"
             if open_head=`curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/"$line" \
             | jq -r .[].head.sha`; then
             echo "$open_head"
             fi
@@ -54,7 +56,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/"$line" \
             | jq -r .[].head.ref`; then
             echo "$open_branch_name"
             fi
@@ -63,7 +65,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/"$line" \
             | jq -r .[].url`; then
             echo "$open_url"
             fi
