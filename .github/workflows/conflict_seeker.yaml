@@ -133,7 +133,7 @@ jobs:
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
           WEBHOOK: "https://discord.com/api/webhooks/1223645310929211453/yemReyMJH38Qz7f1RcRYKta6SiiPjvwnNUSkB0zZouj5I3scoc3-Hs2UQbepdXrstTL7"
-          PAYLOAD: '{"content": "testme pretty please"}'
+          PAYLOAD: '{"content": "testme"}'
           
         # Iterate through open PR commits and compare changes between
         # The trigger commit and other PR commits.
