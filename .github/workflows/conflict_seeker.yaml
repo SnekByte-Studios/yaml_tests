@@ -74,7 +74,7 @@ jobs:
               printf "SAVED "
               printf "$data_json"
             fi
-          done < "$open_ids"
+          done <<< "$open_ids"
 
         # Upload the env files. name is ID. Must match downloads.
       - name: upload open PR commit HEADs
