@@ -148,11 +148,11 @@ jobs:
               else
                 git rebase "$line"|| { \
                 curl -H "Content-Type: application/json" -X POST -d \
-                '{"username": "Conflict Seeker", "content": "' **Successful rebases** "${successful_rebases} Conflict occurred while rebasing ${line}"'"}' \
+                '{"username": "Conflict Seeker", "content": "'" **Successful rebases:** \n ${successful_rebases} encountered a conflict while rebasing ${line}"'"}' \
                 "${WEBHOOK}"; 
                 exit 1;
                 }
-                successful_rebases+="$line ->\n";
+                successful_rebases+="${line} -> \n";
               fi
             done < open_prs.txt
           else
