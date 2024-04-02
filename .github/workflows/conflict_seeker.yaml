@@ -119,6 +119,7 @@ jobs:
         # Iterate through open PR commits and compare changes between
         # The trigger commit and other PR commits.
         run: |
+          echo `cat open_prs.txt`
           successful_rebases=("*`echo "main"`* -> \n")
           # Update repository after downloading artifacts
           git pull
