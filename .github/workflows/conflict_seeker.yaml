@@ -29,7 +29,6 @@ jobs:
           # Clear open_prs
           echo "" > open_prs.txt
           
-          printf "Scraping open PR HEADs "
           # Get open PRs' HEADs
           if open_request_ids=`curl -L \
             -H "Accept: application/vnd.github+json" \
@@ -67,15 +66,12 @@ jobs:
             data_json=$(jq -n --arg head "$head" --arg url "$url" --arg name $"name" \
             '{name: $name,head: $head, url: $url}')
             echo "$data_json" >> open_prs.txt
-          
         # Upload the env files. name is ID. Must match downloads.
       - name: upload open PR commit HEADs
         uses: actions/upload-artifact@v4
         with:
           name: open_prs
           path: open_prs.txt
-          
-      
 
   # job #2 - Download the artifacts and use the data to compare changes between potentially divergent branches.
   download-artifacts:
@@ -101,14 +97,14 @@ jobs:
         # Ensure this step finished successfully before continuing,
         # Else end task.
         if: ${{ success() }}
-          
+        
         # Download artifacts. Must execute after checkout.
       - name: Retrieve Open PR's
         uses: actions/download-artifact@v4
         with:
           # Must match
           name: open_prs
-      
+        
         # Scrape repository secrets and setup environment variables.
       - shell: bash
         name: Compare Changes
