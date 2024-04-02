@@ -138,7 +138,7 @@ jobs:
         # Iterate through open PR commits and compare changes between
         # The trigger commit and other PR commits.
         run: |
-          no_conflict=true
+          successful_rebases=()
           # Update repository after downloading artifacts
           git pull
           
@@ -152,8 +152,8 @@ jobs:
               else
                 echo ${{ env.PAYLOAD }}
                 content="$line"
-                git rebase $line || { curl -H "Content-Type: application/json" \
-                POST -d '{"username": "Conflict Seeker", "content": "encountered a conflict rebasing '"${content}"'"}' ${{ env.WEBHOOK }};  exit 1; }
+                { git rebase $line;successful_rebases+=("$line")}|| { curl -H "Content-Type: application/json" \
+                POST -d '{"username": "Conflict Seeker", "content": "'"$successful_prs"'"encountered a conflict rebasing '"${content}"'"}' ${{ env.WEBHOOK }};  exit 1; }
               fi
             done < open_prs.txt
           else
