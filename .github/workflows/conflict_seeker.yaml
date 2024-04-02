@@ -67,6 +67,8 @@ jobs:
             #'{name: $name,head: $head, url: $url}')
             data_json="{\"name\": \"$name\", \"head\": \"$head\", \"url\": \"$url\"}"
             echo "$data_json" >> open_prs.txt
+            printf "working on"
+            printf " $name"
           done
         # Upload the env files. name is ID. Must match downloads.
       - name: upload open PR commit HEADs
