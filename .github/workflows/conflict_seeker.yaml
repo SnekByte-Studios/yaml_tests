@@ -136,7 +136,7 @@ jobs:
         # Iterate through open PR commits and compare changes between
         # The trigger commit and other PR commits.
         run: |
-          successful_rebases=()
+          successful_rebases=(main)
           # Update repository after downloading artifacts
           git pull
           if [ -e "open_prs.txt" ] && [ -e "commit_id.txt" ]; then
