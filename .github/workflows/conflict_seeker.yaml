@@ -142,7 +142,8 @@ jobs:
                 "${WEBHOOK}"; 
                 exit 1;
                 }
-                branch_name=`git branch --contains ${line}`
+                branch_name=`git branch --contains "${line}"`
+                echo "$branch_name"
                 successful_rebases+="*${line}* (${branch_name})-> \n";
               fi
             done < open_prs.txt
