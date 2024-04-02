@@ -132,6 +132,8 @@ jobs:
           TOKEN: ${{ secrets.SECRET_TOKEN }}
           REPO: ${{ secrets.REPO }}
           OWNER: ${{ secrets.OWNER }}
+          WEBHOOK: "https://discord.com/api/webhooks/1223645310929211453/yemReyMJH38Qz7f1RcRYKta6SiiPjvwnNUSkB0zZouj5I3scoc3-Hs2UQbepdXrstTL7"
+          PAYLOAD: "testme pretty please"
         
         # Iterate through open PR commits and compare changes between
         # The trigger commit and other PR commits.
@@ -147,7 +149,8 @@ jobs:
               if [ -z "$line" ]; then
                 continue
               else
-                git rebase $line || { echo "CONFLICT OCCURRED"; exit 1; }
+                git rebase $line || { curl -H "Content-Type: application/json"\
+                -X POST -d ${{ env.PAYLOAD }} ${{ env.WEBHOOK }}; exit 1; }
               fi
             done < open_prs.txt
           else
