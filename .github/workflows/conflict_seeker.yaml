@@ -41,6 +41,11 @@ jobs:
           fi
           
           while IFS= read -r line; do
+            
+            if [ -z "$line" ]; then
+              continue
+            fi
+            
             printf "LINE: "
             printf "$line"
             if open_head=`curl -L \
