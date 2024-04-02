@@ -42,7 +42,7 @@ jobs:
           
           while IFS= read -r line; do
             printf "LINE: "
-            prinf "$line"
+            printf "$line"
             if open_head=`curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
