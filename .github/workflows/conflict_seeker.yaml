@@ -126,7 +126,7 @@ jobs:
         # Iterate through open PR commits and compare changes between
         # The trigger commit and other PR commits.
         run: |
-          successful_rebases=("*main* -> \n")
+          successful_rebases=("*`echo "main"`* -> \n")
           # Update repository after downloading artifacts
           git pull
           if [ -e "open_prs.txt" ]; then
@@ -136,16 +136,13 @@ jobs:
               if [ -z "$line" ]; then
                 continue
               else
+                branch_name=`git branch -r --contains "${line}"`
                 git rebase "$line"|| { \
                 curl -H "Content-Type: application/json" -X POST -d \
-                '{"username": "Conflict Seeker", "content": "'"**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n ${successful_rebases} \n **Conflict occurred** while rebasing ${line}"'"}' \
+                '{"username": "Conflict Seeker", "content": "'"**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n ${successful_rebases} \n **Conflict occurred** while rebasing ${line} (`echo ${branch_name}`)"'"}' \
                 "${WEBHOOK}"; 
                 exit 1;
                 }
-                branch_name=`git branch -r --contains "${line}"`
-                echo "BRANCH NAME!!!!!!!!"
-                echo "$line"
-                echo "$branch_name"
                 successful_rebases+="*`echo ${line}`* (`echo ${branch_name}`)-> \n";
               fi
             done < open_prs.txt
