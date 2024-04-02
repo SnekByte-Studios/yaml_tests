@@ -39,12 +39,12 @@ jobs:
             | jq -r .[].head.sha`; then
             
             # Repopulate open_prs
-            for id in $open_request_ids
-            do
-              printf "."
-              echo "${id}" >> open_prs.txt
-            done
-            printf "SUCCESS!\n"
+            #for id in $open_request_ids
+            #do
+            #  printf "."
+            #  echo "${id}" >> open_prs.txt
+            #done
+            #printf "SUCCESS!\n"
             
           else
             printf "FAILED!\n"
@@ -53,26 +53,31 @@ jobs:
             exit 1
           fi
           
-          # Get URL of the trigger PR
-          pull_request_url=$(jq -r .pull_request.url "$GITHUB_EVENT_PATH")
-          
-          printf "Scraping trigger commit HEAD "
-          # Get trigger commit HEAD
-          if commit_id=$(curl -L \
-            -H "Accept: application/vnd.github.v3+json" \
+          if open_request_names=`curl -L \
+            -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
-            "$pull_request_url" \
-            | jq -r '.head.sha'); then
-            # Overwrite most recent commit HEAD
-            echo "$commit_id" > commit_id.txt
-            printf "... SUCCESS!\n"
-          else
-            printf "... FAILED!\n"
-            echo "Couldn't retrieve trigger PR's HEAD"
-            echo "Confirm your token hasn't expired."
-            exit 1
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
+            | jq -r .[].head.ref`; then
+          fi
+          
+          if open_request_urls=`curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ env.TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
+            | jq -r .[].url`; then
           fi
 
+          length=${#open_request_urls[@]}
+          for ((x=0; x == $length ; x++)); do
+            name=${open_request_names[x]}
+            head=${open_request_ids[x]}
+            url=${open_request_urls[x]}3
+            data_json=$(jq -n --arg head "$head" --arg url "$url" --arg name $"name" \
+            '{name: $name,head: $head, url: $url}')
+            echo "$data_json" >> open_prs.txt
+          
         # Upload the env files. name is ID. Must match downloads.
       - name: upload open PR commit HEADs
         uses: actions/upload-artifact@v4
