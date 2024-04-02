@@ -141,9 +141,7 @@ jobs:
           successful_rebases=()
           # Update repository after downloading artifacts
           git pull
-          
           if [ -e "open_prs.txt" ] && [ -e "commit_id.txt" ]; then
-            
             # Iterate through open PR commit HEADs
             while IFS= read -r line; do
               # First line is empty. If empty, continue
