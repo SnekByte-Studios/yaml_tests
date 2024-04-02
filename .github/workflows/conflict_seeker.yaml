@@ -30,46 +30,49 @@ jobs:
           echo "" > open_prs.txt
           
           # Get open PRs' HEADs
-          if open_request_ids=`curl -L \
+          if open_ids=`curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
-            | jq -r .[].head.sha`; then
-            echo "$open_request_ids"
+            | jq -r .[].number`; then
+            echo "$open_ids"
             
           fi
           
-          if open_request_names=`curl -L \
+          while IFS= read -r line; do
+            if open_head=`curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
+            | jq -r .[].head.sha`; then
+            echo "$open_head"
+            
+            if open_branch_name=`curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ env.TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
             | jq -r .[].head.ref`; then
-            echo "$open_request_names"
-          fi
-          
-          if open_request_urls=`curl -L \
+            echo "$open_branch_name"
+            
+            if open_url=`curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ env.TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/$line \
             | jq -r .[].url`; then
-            echo "$open_request_urls"
-          fi
+            echo "$open_url"
+            
+            if [open_url] && [open_branch_name] && [open_head]; then
+              data_json="{\"name\": \"$open_branch_name\", \"head\": \"$open_head\", \"url\": \"$open_url\"}"
+              echo "$data_json" >> open_prs.txt
+              printf "SAVED "
+              printf "$data_json"
 
-          length=${#open_request_urls[@]}
-          for ((x=0; x<$length ; x++)); do
-            name=${open_request_names[x]}
-            head=${open_request_ids[x]}
-            url=${open_request_urls[x]}
-            #data_json=$(jq -n --arg head "$head" --arg url "$url" --arg name $"name" \
-            #'{name: $name,head: $head, url: $url}')
-            data_json="{\"name\": \"$name\", \"head\": \"$head\", \"url\": \"$url\"}"
-            echo "$data_json" >> open_prs.txt
-            printf "working on"
-            printf " $name"
-          done
+          done <<< $open_ids
+
         # Upload the env files. name is ID. Must match downloads.
       - name: upload open PR commit HEADs
         uses: actions/upload-artifact@v4
