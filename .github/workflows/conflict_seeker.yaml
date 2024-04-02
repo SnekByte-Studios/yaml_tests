@@ -134,7 +134,6 @@ jobs:
           OWNER: ${{ secrets.OWNER }}
           WEBHOOK: "https://discord.com/api/webhooks/1223645310929211453/yemReyMJH38Qz7f1RcRYKta6SiiPjvwnNUSkB0zZouj5I3scoc3-Hs2UQbepdXrstTL7"
           PAYLOAD: '{"content": "testme"}'
-          
         # Iterate through open PR commits and compare changes between
         # The trigger commit and other PR commits.
         run: |
@@ -152,7 +151,7 @@ jobs:
                 content="$line"
                 { git rebase $line;successful_rebases+=("$line")}|| { curl -H "Content-Type: application/json" \
                 POST -d '{"username": "Conflict Seeker", \
-                "content": "'"$successful_prs"'"encountered a conflict rebasing '"${content}"'"}' \
+                "content": "'"$successful_prs"'encountered a conflict rebasing '"${content}"'"}' \
                 ${{ env.WEBHOOK }};  exit 1; }
               fi
             done < open_prs.txt
