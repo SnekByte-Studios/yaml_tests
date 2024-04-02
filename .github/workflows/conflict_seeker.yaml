@@ -59,7 +59,7 @@ jobs:
           fi
 
           length=${#open_request_urls[@]}
-          for ((x=0; x == $length ; x++)); do
+          for ((x=0; x<$length ; x++)); do
             name=${open_request_names[x]}
             head=${open_request_ids[x]}
             url=${open_request_urls[x]}
