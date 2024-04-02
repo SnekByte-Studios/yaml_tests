@@ -49,30 +49,30 @@ jobs:
             printf "LINE: "
             printf "$line"
             if open_head=`curl -L \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ env.TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${line}\
-            | jq -r .[].head.sha`; then
-            echo "$open_head"
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ env.TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${line}\
+              | jq -r .[].head.sha`; then
+              echo "$open_head"
             fi
             
             if open_branch_name=`curl -L \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ env.TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${line}\
-            | jq -r .[].head.ref`; then
-            echo "$open_branch_name"
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ env.TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${line}\
+              | jq -r .[].head.ref`; then
+              echo "$open_branch_name"
             fi
             
             if open_url=`curl -L \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ env.TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${line}\
-            | jq -r .[].url`; then
-            echo "$open_url"
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ env.TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/pulls/${line}\
+              | jq -r .[].url`; then
+              echo "$open_url"
             fi
             
             if [$open_url] && [$open_branch_name] && [$open_head]; then
