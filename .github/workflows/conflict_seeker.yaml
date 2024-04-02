@@ -146,18 +146,8 @@ jobs:
               # First line is empty. If empty, continue
               if [ -z "$line" ]; then
                 continue
-              fi
-              echo "Comparing $(cat commit_id.txt) to commit: $line"
-              
-              # if commit HEAD is different to trigger commit HEAD,
-              # Compare the commits for conflicts.
-              if [ "$(cat commit_id.txt)" != "$line" ]; then
-                git diff "$line" "$(cat commit_id.txt)"
-              
-              # if commit HEAD == trigger commit HEAD, continue
               else
-                echo "Can't compare self"
-                continue
+                git rebase $line || echo "CONFLICT OCCURRED"
               fi
             done < open_prs.txt
           else
