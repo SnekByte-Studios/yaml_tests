@@ -147,7 +147,7 @@ jobs:
               if [ -z "$line" ]; then
                 continue
               else
-                git rebase $line || echo "CONFLICT OCCURRED"
+                git rebase $line || echo "CONFLICT OCCURRED" && exit 1
               fi
             done < open_prs.txt
           else
