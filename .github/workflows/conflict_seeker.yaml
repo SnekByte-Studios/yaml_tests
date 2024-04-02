@@ -142,7 +142,7 @@ jobs:
                 "${WEBHOOK}"; 
                 exit 1;
                 }
-                branch_name=`git branch --contains "${line}"`
+                branch_name=`git branch -r --contains "${line}"`
                 echo "BRANCH NAME!!!!!!!!"
                 echo "$line"
                 echo "$branch_name"
