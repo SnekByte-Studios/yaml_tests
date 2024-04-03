@@ -155,7 +155,7 @@ jobs:
                 url=$(echo "$line" | jq -r '.url')
                 git rebase "$head"|| { \
                 curl -H "Content-Type: application/json" -X POST -d \
-                '{"username": "Conflict Seeker", "content": "'"**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n ${successful_rebases} \n **Conflict occurred** while rebasing ${head} (${name}), \n ${url} "'"}' \
+                '{"username": "Conflict Seeker", "content": "**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n '"$successful_rebases"' \n **Conflict occurred** while rebasing '"$head"' ('"$name"'), \n '"$url"'}' \
                 "${WEBHOOK}"; 
                 exit 1;
                 }
