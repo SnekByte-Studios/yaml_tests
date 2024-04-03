@@ -140,6 +140,7 @@ jobs:
         # The trigger commit and other PR commits.
         run: |
           echo `cat open_prs.txt`
+          webhook='https://discord.com/api/webhooks/1223645310929211453/yemReyMJH38Qz7f1RcRYKta6SiiPjvwnNUSkB0zZouj5I3scoc3-Hs2UQbepdXrstTL7'
           successful_rebases=("*`echo "main"`* -> \n")
           # Update repository after downloading artifacts
           git pull
@@ -153,14 +154,12 @@ jobs:
                 name=$(echo "$line" | jq -r '.name')
                 head=$(echo "$line" | jq -r '.head')
                 url=$(echo "$line" | jq -r '.url')
-                webhook=${{ env.WEBHOOK }}
                 
                 echo "Printing variable values:"
                 echo "successful_rebases: $successful_rebases"
                 echo "name: $name"
                 echo "head: $head"
                 echo "url: $url"
-                
                 
                 git rebase "$head"|| { \
                 curl -H "Content-Type: application/json" -X POST -d\ 
