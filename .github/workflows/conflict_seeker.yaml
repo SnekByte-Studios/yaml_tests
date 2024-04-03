@@ -153,6 +153,7 @@ jobs:
                 name=$(echo "$line" | jq -r '.name')
                 head=$(echo "$line" | jq -r '.head')
                 url=$(echo "$line" | jq -r '.url')
+                webhook=${{ env.WEBHOOK }}
                 
                 echo "Printing variable values:"
                 echo "successful_rebases: $successful_rebases"
@@ -160,9 +161,10 @@ jobs:
                 echo "head: $head"
                 echo "url: $url"
                 
+                
                 git rebase "$head"|| { \
                 curl -H "Content-Type: application/json" -X POST -d\ 
-                '{"username": "Conflict Seeker", "content": "**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n'"$successful_rebases"'\n**Conflict Occured** while rebasing '"$head ($name)\n$url\""'}' "$env.WEBHOOK"; exit 1; }
+                '{"username": "Conflict Seeker", "content": "**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n'"$successful_rebases"'\n**Conflict Occured** while rebasing '"$head ($name)\n$url\""'}' "$webhook"; exit 1; }
                 
                 successful_rebases+="*`echo ${head}`* (`echo ${name}`)-> \n";
               fi
