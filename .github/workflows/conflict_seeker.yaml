@@ -139,18 +139,23 @@ jobs:
         # Iterate through open PR commits and compare changes between
         # The trigger commit and other PR commits.
         run: |
-          echo `cat open_prs.txt`
-          webhook='https://discord.com/api/webhooks/1223645310929211453/yemReyMJH38Qz7f1RcRYKta6SiiPjvwnNUSkB0zZouj5I3scoc3-Hs2UQbepdXrstTL7'
+          # Create an array object for successful rebases
           successful_rebases=("*`echo "main"`* -> \n")
+          
           # Update repository after downloading artifacts
           git pull
+          
+          # If open_prs.txt was downloaded successfully, 
           if [ -e "open_prs.txt" ]; then
+            
+            # Iterate through the json objects
             while IFS= read -r line; do
               # First line is empty. If empty, continue
               if [ -z "$line" ]; then
                 continue
               else
-                echo $line
+                
+                # Parse the JSON and extract the following information
                 name=$(echo "$line" | jq -r '.name')
                 head=$(echo "$line" | jq -r '.head')
                 url=$(echo "$line" | jq -r '.url')
@@ -163,7 +168,7 @@ jobs:
                 
                 git rebase "$head"|| { \
                 
-                 curl -H "Content-Type: application/json" -X POST -d '{"username": "Conflict Seeker","content": "**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n'"$successful_rebases"'\n**Conflict Occurred** while rebasing '"$head ($name)"', \n'" $url"\"'}' "${WEBHOOK}"; exit 1; }
+                curl -H "Content-Type: application/json" -X POST -d '{"username": "Conflict Seeker","content": "**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n'"$successful_rebases"'\n**Conflict Occurred** while rebasing '"$head ($name)"', \n'" $url"\"'}' "${WEBHOOK}"; exit 1; }
                 successful_rebases+="*`echo ${head}`* (`echo ${name}`)-> \n";
               fi
             done < open_prs.txt
