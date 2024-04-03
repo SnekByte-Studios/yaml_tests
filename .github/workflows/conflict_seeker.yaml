@@ -166,7 +166,7 @@ jobs:
                 "${WEBHOOK}"; 
                 exit 1;
                 }
-                successful_rebases+="*`echo ${line}`* (`echo ${branch_name}`)-> \n";
+                successful_rebases+="*`echo ${head}`* (`echo ${name}`)-> \n";
               fi
             done < open_prs.txt
           else
