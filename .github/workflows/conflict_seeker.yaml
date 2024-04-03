@@ -145,7 +145,7 @@ jobs:
           # Update repository after downloading artifacts
           git pull
           
-          # If open_prs.txt was downloaded successfully, 
+          # make sure the artifact was downloaded successfully, 
           if [ -e "open_prs.txt" ]; then
             
             # Iterate through the json objects
@@ -166,8 +166,9 @@ jobs:
                 echo "head: $head"
                 echo "url: $url"
                 
+                # Try to rebase open branches onto the local branch,
+                # If conflict, send a message to our discord server.
                 git rebase "$head"|| { \
-                
                 curl -H "Content-Type: application/json" -X POST -d '{"username": "Conflict Seeker","content": "**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n'"$successful_rebases"'\n**Conflict Occurred** while rebasing '"$head ($name)"', \n'" $url"\"'}' "${WEBHOOK}"; exit 1; }
                 successful_rebases+="*`echo ${head}`* (`echo ${name}`)-> \n";
               fi
