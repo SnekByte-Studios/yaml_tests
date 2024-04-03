@@ -150,9 +150,9 @@ jobs:
                 continue
               else
                 echo $line
-                name = $(echo "$line" | jq '.name')
-                head = $(echo "$line" | jq '.head')
-                url = $(echo "$line" | jq '.url')
+                name=$(echo "$line" | jq -r '.name')
+                head=$(echo "$line" | jq -r '.head')
+                url=$(echo "$line" | jq -r '.url')
                 git rebase "$head"|| { \
                 curl -H "Content-Type: application/json" -X POST -d \
                 '{"username": "Conflict Seeker", "content": "'"**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n ${successful_rebases} \n **Conflict occurred** while rebasing ${head} (${name}), \n ${url} "'"}' \
