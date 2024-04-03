@@ -165,7 +165,7 @@ jobs:
                 
                 curl -H "Content-Type: application/json" -X POST -d \
                 '{"username": "Conflict Seeker","content": "**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n'"$successful_rebases"'\n**Conflict Occurred** while rebasing '"$head ($name)" \
-                ', \n'"$url"\"'}' "${WEBHOOK}"; exit 1; }
+                ', \n'"$url"'"}' "${WEBHOOK}"; exit 1; }
                 successful_rebases+="*`echo ${head}`* (`echo ${name}`)-> \n";
               fi
             done < open_prs.txt
