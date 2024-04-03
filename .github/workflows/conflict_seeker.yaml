@@ -144,15 +144,14 @@ jobs:
           # Update repository after downloading artifacts
           git pull
           if [ -e "open_prs.txt" ]; then
-            # Iterate through open PR commit HEADs
             while IFS= read -r line; do
               # First line is empty. If empty, continue
               if [ -z "$line" ]; then
                 continue
               else
-                name = `echo $line | jq.name`
-                head = `echo $line | jq.head`
-                url = `echo $line | jq.url`
+                name = $(echo "$line" | jq '.name')
+                head = $(echo "$line" | jq '.head')
+                url = $(echo "$line" | jq '.url')
                 git rebase "$head"|| { \
                 curl -H "Content-Type: application/json" -X POST -d \
                 '{"username": "Conflict Seeker", "content": "'"**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:** \n ${successful_rebases} \n **Conflict occurred** while rebasing ${head} (${name}), \n ${url} "'"}' \
