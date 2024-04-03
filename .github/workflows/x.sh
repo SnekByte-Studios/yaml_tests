@@ -4,9 +4,9 @@ head=1234567890
 name="Albert"
 #post_data='{"username": "Conflict Seeker", "content": "**[CONFLICTING VERSIONS FOUND]** \n\n**Rebase Order:**'"\n $successful_rebases \n"\
 #'**Conflict occurred** while rebasing'"$head ($name), \n ${url}\""'}'
-#post_data='{"username": "Conflict Seeker","content": "**[CONFLICTING VERSIONS #FOUND]** \n\n**Rebase Order:**\n'"$successful_rebases"'\n**Conflict occurred** #while rebasing '"$head ($name)"', \n'" $url"\"'}'
-#post_data='{"username": "Conflict Seeker", "content": "**[CONFLICTING VERSIONS #FOUND]** \n\n**Rebase Order:**\n'"$successful_rebases"'\n**Conflict occurred** #while rebasing '"$head ($name)"',\n"url": "'"$url"'"}'
-post_data='{"username": "Snek", "content": "now that it works, all that is left to do is simply implementing the changes made in the script and opening a PR."}'
+post_data='{"username": "Conflict Seeker","content": "**[CONFLICTING VERSIONS #FOUND]** \n\n**Rebase Order:**\n'"$successful_rebases"'\n**Conflict occurred** #while rebasing '"$head ($name)"', \n'" $url"\"'}'
+#post_data='{"username": "Conflict Seeker", "content": "**[CONFLICTING VERSIONS #FOUND]** \n\n**Rebase Order:**\n'"$successful_rebases"'\n**Conflict occurred** #while rebasing '"$head ($name)"',\n"url": #"'"$url"'"}'
+#post_data='{"username": "Snek", "content": "now that it works, all that is left to do is simply implementing the changes made in the script and opening a PR."}'
 
 echo $x
 echo "Connecting to:"
