@@ -149,6 +149,7 @@ jobs:
               if [ -z "$line" ]; then
                 continue
               else
+                echo $line
                 name = $(echo "$line" | jq '.name')
                 head = $(echo "$line" | jq '.head')
                 url = $(echo "$line" | jq '.url')
